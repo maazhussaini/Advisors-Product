@@ -4,10 +4,10 @@ import React from 'react';
 export const Header = () => {
   return (
     <>
-      <div className="w-full max-w-screen-lg flex flex-col items-center p-4">
+      <div className="w-full flex flex-col items-center p-4">
         {/* <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-6 grid gap-6"> */}
         {/* Header Section */}
-        <div className="w-full max-w-screen-lg flex items-center justify-between bg-white rounded-lg shadow-md p-4 mb-8">
+        <div className="w-full  flex items-center justify-between bg-white rounded-lg shadow-md p-4 mb-8">
           <div className="flex items-center w-full sm:w-auto">
             <img
               src="Mask.svg"
