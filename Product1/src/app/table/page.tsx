@@ -2,104 +2,96 @@
 import React from "react";
 
 const Table = () => {
-    const x = 1;
+  // Dummy data
+  const data = [
+    {
+      "SAR'000": "GMV (Gross Merchandise Value)",
+      FY20A: 375,
+      FY21A: 4430,
+      FY22A: 9482,
+      FY23A: 39977,
+      FY24F: 85090,
+      FY25F: 167334,
+      FY26F: 262835,
+      FY27F: null,
+    },
+    {
+      "SAR'000": "Commercial Costs",
+      FY20A: -340,
+      FY21A: -4165,
+      FY22A: -8348,
+      FY23A: -35522,
+      FY24F: -74880,
+      FY25F: -147254,
+      FY26F: -231295,
+      FY27F: null,
+    },
+    {
+      "SAR'000": "Revenue - Take rate",
+      FY20A: 35,
+      FY21A: 265,
+      FY22A: 1133,
+      FY23A: 4455,
+      FY24F: 10211,
+      FY25F: 20080,
+      FY26F: 31540,
+      FY27F: null,
+    },
+    {
+      "SAR'000": "Direct Costs",
+      FY20A: -170,
+      FY21A: -914,
+      FY22A: -1485,
+      FY23A: -2507,
+      FY24F: -5270,
+      FY25F: -9040,
+      FY26F: -13068,
+      FY27F: null,
+    },
+  ];
 
-    return (
-        <>
-           <div className="w-full p-4">
-        <div className="max-w-7xl mx-auto bg-white  rounded-lg shadow">
-          {/* Header */}
-          <div className="bg-blue-500 text-white font-bold text-lg p-4 rounded-t-lg">
-            INCOME STATEMENT
-          </div>
+  // Extract column headers
+  const columns = Object.keys(data[0]);
 
-          {/* Table */}
-          <div className="overflow-x-auto">
- 
+  return (
+    <div className="w-full p-4">
+      <div className="max-w-7xl mx-auto bg-white rounded-lg shadow">
+        {/* Header */}
+        <div className="bg-blue-500 text-white font-bold text-lg p-4 rounded-t-lg">
+          INCOME STATEMENT
+        </div>
 
-            <table className="w-full text-left -collapse">
-              {/* Table Head */}
-              <thead className="bg-blue-100 text-sm uppercase">
-                <tr>
-                  <th className="py-2 px-4 ">SAR'000</th>
-                  <th className="py-2 px-4 ">FY20A</th>
-                  <th className="py-2 px-4 ">FY21A</th>
-                  <th className="py-2 px-4 ">FY22A</th>
-                  <th className="py-2 px-4 ">FY23A</th>
-                  <th className="py-2 px-4 ">FY24F</th>
-                  <th className="py-2 px-4 ">FY25F</th>
-                  <th className="py-2 px-4 ">FY26F</th>
-                  <th className="py-2 px-4 ">FY27F</th>
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-left -collapse">
+            {/* Table Head */}
+            <thead className="bg-blue-100 text-sm uppercase">
+              <tr>
+                {columns.map((col: any) => (
+                  <th key={col} className="py-2 px-4">
+                    {col}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+
+            {/* Table Body */}
+            <tbody>
+              {data.map((row: any, index: number) => (
+                <tr key={index} className="border-b">
+                  {columns.map((col) => (
+                    <td key={col} className="py-2 px-4">
+                      {row[col] !== null ? row[col] : "-"}
+                    </td>
+                  ))}
                 </tr>
-              </thead>
-
-              {/* Table Body */}
-              <tbody>
-                {/* GMV Section */}
-                <tr>
-                  <td className="py-2 px-4 font-bold text-left text-[14px] leading-[20px]"
-                  style={{ color: 'rgba(23, 90, 228, 1)' }}>
-
-                    GMV (Gross Merchandise Value)
-                  </td>
-
-                  <td className="py-2 px-4 ">375</td>
-                  <td className="py-2 px-4 ">4430</td>
-                  <td className="py-2 px-4 ">9482</td>
-                  <td className="py-2 px-4 ">39977</td>
-                  <td className="py-2 px-4 ">85090</td>
-                  <td className="py-2 px-4 ">167334</td>
-                  <td className="py-2 px-4 ">262835</td>
-                </tr>
-                
-                <tr className="border-b"> 
-               <td className="py-2 px-4 text-[14px] leading-[20px] font-normal text-black text-left">
-                    Commercial Costs
-                  </td>
-                  <td className="py-2 px-4 ">-340</td>
-                  <td className="py-2 px-4 ">-4165</td>
-                  <td className="py-2 px-4 ">-8348</td>
-                  <td className="py-2 px-4 ">-35522</td>
-                  <td className="py-2 px-4 ">-74880</td>
-                  <td className="py-2 px-4 ">-147254</td>
-                  <td className="py-2 px-4 ">-231295</td>
-                </tr>
-
-
-
-                {/* Revenue Section */}
-                <tr>
-                  <td className="py-2 px-4  font-semibold">
-                    Revenue - Take rate
-                  </td>
-                  <td className="py-2 px-4 ">35</td>
-                  <td className="py-2 px-4 ">265</td>
-                  <td className="py-2 px-4 ">1133</td>
-                  <td className="py-2 px-4 ">4455</td>
-                  <td className="py-2 px-4 ">10211</td>
-                  <td className="py-2 px-4 ">20080</td>
-                  <td className="py-2 px-4 ">31540</td>
-                </tr>
-                <tr>
-                  <td className="py-2 px-4  text-gray-500">
-                    Direct Costs
-                  </td>
-                  <td className="py-2 px-4 ">-170</td>
-                  <td className="py-2 px-4 ">-914</td>
-                  <td className="py-2 px-4 ">-1485</td>
-                  <td className="py-2 px-4 ">-2507</td>
-                  <td className="py-2 px-4 ">-5270</td>
-                  <td className="py-2 px-4 ">-9040</td>
-                  <td className="py-2 px-4 ">-13068</td>
-                </tr>
-
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
-        </>
-    );
+    </div>
+  );
 };
 
 export default Table;
