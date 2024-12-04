@@ -2,56 +2,29 @@
 import React from "react";
 
 const Table = () => {
-  // Dummy data
+  // New data format
   const data = [
-    {
-      "SAR'000": "GMV (Gross Merchandise Value)",
-      FY20A: 375,
-      FY21A: 4430,
-      FY22A: 9482,
-      FY23A: 39977,
-      FY24F: 85090,
-      FY25F: 167334,
-      FY26F: 262835,
-      FY27F: null,
-    },
-    {
-      "SAR'000": "Commercial Costs",
-      FY20A: -340,
-      FY21A: -4165,
-      FY22A: -8348,
-      FY23A: -35522,
-      FY24F: -74880,
-      FY25F: -147254,
-      FY26F: -231295,
-      FY27F: null,
-    },
-    {
-      "SAR'000": "Revenue - Take rate",
-      FY20A: 35,
-      FY21A: 265,
-      FY22A: 1133,
-      FY23A: 4455,
-      FY24F: 10211,
-      FY25F: 20080,
-      FY26F: 31540,
-      FY27F: null,
-    },
-    {
-      "SAR'000": "Direct Costs",
-      FY20A: -170,
-      FY21A: -914,
-      FY22A: -1485,
-      FY23A: -2507,
-      FY24F: -5270,
-      FY25F: -9040,
-      FY26F: -13068,
-      FY27F: null,
-    },
+    [
+      "SAR'000",
+      "FY20A",
+      "FY21A",
+      "FY22A",
+      "FY23A",
+      "FY24F",
+      "FY25F",
+      "FY26F",
+      "FY27F",
+    ],
+    ["GMV (Gross Merchandise Value)", 375, 4430, 9482, 39977, 85090, 167334, 262835, null],
+    ["Commercial Costs", -340, -4165, -8348, -35522, -74880, -147254, -231295, null],
+    ["Revenue - Take rate", 35, 265, 1133, 4455, 10211, 20080, 31540, null],
+    ["Direct Costs", -170, -914, -1485, -2507, -5270, -9040, -13068, null],
+    ["InDirect Costs", -270, -914, -1485, -2507, -5270, -9040, -13068, null],
   ];
 
-  // Extract column headers
-  const columns = Object.keys(data[0]);
+  // Extract column headers and rows
+  const columns = data[0];
+  const rows = data.slice(1);
 
   return (
     <div className="w-full p-4">
@@ -67,8 +40,8 @@ const Table = () => {
             {/* Table Head */}
             <thead className="bg-blue-100 text-sm uppercase">
               <tr>
-                {columns.map((col: any) => (
-                  <th key={col} className="py-2 px-4">
+                {columns.map((col: any, index: number) => (
+                  <th key={index} className="py-2 px-4">
                     {col}
                   </th>
                 ))}
@@ -77,11 +50,11 @@ const Table = () => {
 
             {/* Table Body */}
             <tbody>
-              {data.map((row: any, index: number) => (
-                <tr key={index} className="border-b">
-                  {columns.map((col) => (
-                    <td key={col} className="py-2 px-4">
-                      {row[col] !== null ? row[col] : "-"}
+              {rows.map((row: any, rowIndex: number) => (
+                <tr key={rowIndex} className="border-b">
+                  {row.map((cell: any, cellIndex: number) => (
+                    <td key={cellIndex} className="py-2 px-4">
+                      {cell !== null ? cell : "-"}
                     </td>
                   ))}
                 </tr>
