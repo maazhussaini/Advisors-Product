@@ -2,7 +2,7 @@
 
 import { useGetTheUsersQuery } from '@/lib/services/api';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 // import ExampleCounter from './components/Counter';
 import { Header } from '@/common/components/Header';
 import { Upload } from '@/common/components/Upload';
@@ -11,16 +11,34 @@ import { Table } from '@/common/components/Table';
 
 const ExampleClientComponent = () => {
   const { data, isLoading, isError } = useGetTheUsersQuery('');
+
+  const [step, setStep] = useState(1);
+  const [files, setFiles] = useState<File[]>([]);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
   console.log(data);
 
   return (
     <>
-    <Header />
-    <Upload />
-    {/* <UploadMapping /> */}
+      <Header />
+      {step === 1 && (
+        <Upload
+          setStep={setStep}
+          setFiles={setFiles}
+          setUploadProgress={setUploadProgress}
+          files={files}
+          uploadProgress={uploadProgress}
+        />
+      )}
+      {step === 2 && (
+        <UploadMapping
+          setStep={setStep}
+          files={files}
+          uploadProgress={uploadProgress}
+        />
+      )}
 
-    {/* <Table /> */}
-
+      {/* <Table /> */}
     </>
   );
 };

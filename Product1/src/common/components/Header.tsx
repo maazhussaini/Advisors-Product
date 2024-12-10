@@ -19,7 +19,7 @@ export const Header = () => {
               style={{
                 color: 'rgba(0, 0, 0, 1)',
                 fontFamily: 'Poppins',
-                fontSize: '30px',
+                fontSize: '20px',
                 fontWeight: 500,
                 lineHeight: '45px',
                 textUnderlinePosition: 'from-font',
