@@ -1,0 +1,15 @@
+flask
+sqlalchemy
+pyodbc
+flask-sqlalchemy
+pandas
+flask-restful
+Flask-Migrate
+marshmallow-sqlalchemy
+Flask-Cors
+python-dotenv
+flask-jwt-extended
+pycryptodome
+Flask-Mail
+waitress
+openpyxl
