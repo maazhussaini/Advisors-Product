@@ -7,6 +7,7 @@ import React from 'react';
 import { Header } from '@/common/components/Header';
 import { Upload } from '@/common/components/Upload';
 import { UploadMapping } from '@/common/components/UploadMapping';
+import { Table } from '@/common/components/Table';
 
 const ExampleClientComponent = () => {
   const { data, isLoading, isError } = useGetTheUsersQuery('');
@@ -15,9 +16,10 @@ const ExampleClientComponent = () => {
   return (
     <>
     <Header />
-
     <Upload />
-    <UploadMapping />
+    {/* <UploadMapping /> */}
+
+    {/* <Table /> */}
 
     </>
   );
