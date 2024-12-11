@@ -105,16 +105,17 @@ class FileUploadResource(Resource):
             
             # Convert results to JSON
             consolidated_data_json = consolidated_data.to_dict(orient='records')
-            mapped_data_json = mapped_data.to_dict(orient='records')
+            mapped_data_json = mapped_data.to_dict(orient='list')
             pivot_table_json = pivot_table.to_dict(orient='records') if pivot_table is not None else None
             
             return {
                 "status": "success",
                 # "consolidated_data": consolidated_data_json,
                 "mapped_data": mapped_data_json,
-                "pivot_table": pivot_table_json,
+                # "pivot_table": pivot_table_json,
                 "failed_files": failed_files
             }, 200
+            
         
         except Exception as e:
             return {"status": "error", "message": str(e)}, 500
