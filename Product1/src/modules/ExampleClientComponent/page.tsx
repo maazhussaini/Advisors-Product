@@ -9,6 +9,9 @@ import { Upload } from '@/common/components/Upload';
 import { UploadMapping } from '@/common/components/UploadMapping';
 import { Table } from '@/common/components/Table';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const ExampleClientComponent = () => {
   const { data, isLoading, isError } = useGetTheUsersQuery('');
 
@@ -37,6 +40,8 @@ const ExampleClientComponent = () => {
           uploadProgress={uploadProgress}
         />
       )}
+
+<ToastContainer />
 
       {/* <Table /> */}
     </>

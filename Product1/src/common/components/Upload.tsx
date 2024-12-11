@@ -2,8 +2,9 @@
 
 import React, { useState, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
+import {  toast } from 'react-toastify';
 
-export const Upload = ({ setStep,setFiles, files,  }: any) => {
+export const Upload = ({ setStep,setFiles, files, setUploadProgress }: any) => {
 
   const [uploading, setUploading] = useState(false);
   
@@ -31,29 +32,39 @@ export const Upload = ({ setStep,setFiles, files,  }: any) => {
   const [progress, setProgress] = useState(0);
 
   // Handle upload logic
-  const handleUpload = () => {
+  const handleUpload = async () => {
+    if (files.length === 0) {
+      toast.error('No files selected for upload.');
+      return;
+    }
+  
     setUploading(true);
-    let uploadedCount = 0;
-
-    files.forEach((file: any, index: any) => {
-      // Simulate file upload with a delay
-      setTimeout(
-        () => {
-          uploadedCount++;
-          const currentProgress = Math.round(
-            (uploadedCount / files.length) * 100
-          );
-          setProgress(currentProgress);
-
-          if (uploadedCount === files.length) {
-            setUploading(false);
-            alert('Files uploaded successfully!');
-          }
-        },
-        (index + 1) * 1000
-      ); // Simulate different upload times
-    });
+    const formData = new FormData();
+  
+    files.forEach((file: any) => formData.append('files', file));
+  
+    try {
+      const response = await fetch('http://localhost:8000/upload', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        toast.success('File uploaded successfully!');
+        setProgress(100);
+        setUploadProgress(100);
+        setFiles([]); // Clear files after upload
+      } else {
+        const error = await response.json();
+        toast.error(`Upload failed: ${error.message || response.statusText}`);
+      }
+    } catch (error: any) {
+      toast.error(`Error uploading files: ${error.message}`);
+    } finally {
+      setUploading(false);
+    }
   };
+  
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -189,7 +200,7 @@ export const Upload = ({ setStep,setFiles, files,  }: any) => {
             border: '1px solid rgba(5, 117, 230, 1)',
             marginBottom: '30px',
           }}
-          onClick={() => setStep(2)}
+          onClick={() => {setStep(2)}}
           disabled={files.length === 0}
         >
           Next

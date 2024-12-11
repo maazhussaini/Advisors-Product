@@ -3,6 +3,7 @@
 import React from 'react';
 
 export const UploadMapping = ({ setStep, files, uploadProgress }: any) => {
+  console.log('uploadProgress',uploadProgress)
   return (
     <div className="flex items-center justify-center min-h-screen bg-white rounded-lg shadow-md flex-col">
       <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8 grid gap-6">
