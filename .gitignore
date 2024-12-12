@@ -3,6 +3,13 @@ package-lock.json/
 
 pyenv/
 
+# Ignore __pycache__ folder
+__pycache__/
+
+*.csv
+*.xlsx
+*.pyc
+
 # Ignore node_modules folder
 node_modules/
 

@@ -108,6 +108,8 @@ class FileUploadResource(Resource):
             mapped_data_json = mapped_data.to_dict(orient='list')
             pivot_table_json = pivot_table.to_dict(orient='records') if pivot_table is not None else None
             
+            mapped_data.to_csv("Platraw_MappedData.csv", index=False)
+            
             return {
                 "status": "success",
                 # "consolidated_data": consolidated_data_json,
