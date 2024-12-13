@@ -3,6 +3,8 @@ package-lock.json/
 
 pyenv/
 
+__pycache__/
+
 # Ignore node_modules folder
 node_modules/
 
