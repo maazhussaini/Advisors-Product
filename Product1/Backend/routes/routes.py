@@ -10,7 +10,7 @@ def register_routes(app):
     app.register_blueprint(api_bp, url_prefix='/api')
     
     CORS(app, resources={
-        r"/api/*": {"origins": ["http://192.168.4.115:8200", "*"]}
+        r"/api/*": {"origins": ["http://localhost:3000/", "*"]}
     })
     
     

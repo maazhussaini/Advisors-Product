@@ -1,21 +1,23 @@
 'use-client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
+import {  toast } from 'react-toastify';
 
-export const Upload = () => {
-  const [files, setFiles] = useState<File[]>([]);
+export const Upload = ({ setStep,setFiles, files, setUploadProgress }: any) => {
+
   const [uploading, setUploading] = useState(false);
+  
 
   // Handle file input change
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
-    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
+    setFiles((prevFiles: any) => [...prevFiles, ...selectedFiles]);
   };
 
   // Handle file drop
   const onDrop = (acceptedFiles: File[]) => {
-    setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
+    setFiles((prevFiles: any) => [...prevFiles, ...acceptedFiles]);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -27,18 +29,52 @@ export const Upload = () => {
     },
     multiple: true,
   });
+  const [progress, setProgress] = useState(0);
 
   // Handle upload logic
-  const handleUpload = () => {
+  const handleUpload = async () => {
+    if (files.length === 0) {
+      toast.error('No files selected for upload.');
+      return;
+    }
+  
     setUploading(true);
-    setTimeout(() => {
+    const formData = new FormData();
+  
+    files.forEach((file: any) => formData.append('files', file));
+  
+    try {
+      const response = await fetch('http://localhost:8000/upload', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        toast.success('File uploaded successfully!');
+        setProgress(100);
+        setUploadProgress(100);
+        setFiles([]); // Clear files after upload
+      } else {
+        const error = await response.json();
+        toast.error(`Upload failed: ${error.message || response.statusText}`);
+      }
+    } catch (error: any) {
+      toast.error(`Error uploading files: ${error.message}`);
+    } finally {
       setUploading(false);
-      alert('Files uploaded successfully!');
-    }, 2000);
+    }
+  };
+  
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileClick = (e: any) => {
+    e.prevent.default();
+    fileInputRef.current?.click();
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white rounded-lg shadow-md flex-col">
+    <div className="flex items-center justify-center bg-white rounded-lg shadow-md flex-col">
       <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8 grid gap-6">
         <h2 className="text-center text-gray-900 font-semibold text-base mb-4">
           Upload Source File (CSV/Excel/PDF format Only)
@@ -56,20 +92,23 @@ export const Upload = () => {
               <p>Drop the files here...</p>
             ) : (
               <>
-                Drag & drop files or{' '}
-                <span>&nbsp;</span>
+                Drag & drop files or <span>&nbsp;</span>
                 <div className="text-blue-500 cursor-pointer hover:underline">
-                  <label htmlFor="file-upload" className="cursor-pointer">
+                  <button
+                    className="text-blue-500 cursor-pointer hover:underline"
+                    onClick={(e) =>handleFileClick(e)}
+                  >
                     Browse
-                    <input
-                      type="file"
-                      multiple
-                      accept=".csv, .xlsx, .xls, .pdf"
-                      onChange={handleFileChange}
-                      style={{ display: 'none' }}
-                      id="file-upload"
-                    />
-                  </label>
+                  </button>
+
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept=".csv, .xlsx, .xls, .pdf"
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+                  />
                 </div>
               </>
             )}
@@ -79,20 +118,25 @@ export const Upload = () => {
           </div>
         </div>
         <div>
-          <div className="text-gray-600 text-sm mb-1">Selected - {files.length} files</div>
-          {uploading && (
-            <div className="relative w-full bg-gray-200 rounded-full h-2">
-              <div className="absolute h-2 rounded-full bg-blue-500" style={{ width: '100%' }}></div>
-            </div>
-          )}
-          {files.map((file, index) => (
+          <div className="text-gray-600 text-sm mb-1">
+            Selected - {files.length} files
+          </div>
+
+          <div className="relative w-full bg-gray-200 rounded-full h-2 mt-2">
+            <div
+              className="absolute h-2 rounded-full bg-blue-500"
+              style={{ width: `${progress}%` }}
+            ></div>
+          </div>
+
+          {files.map((file: any, index: any) => (
             <p key={index} className="text-gray-600 text-sm mt-1">
               {file.name}
             </p>
           ))}
         </div>
         <div className="space-y-2">
-          {files.map((file, index) => (
+          {files.map((file: any, index: any) => (
             <div
               key={index}
               className="flex items-center justify-between border-2 border-green-400 rounded-md p-2 text-sm text-green-600"
@@ -102,9 +146,7 @@ export const Upload = () => {
                 src="Delete.svg"
                 className="w-7 h-7 cursor-pointer"
                 alt="delete"
-                onClick={() =>
-                  setFiles(files.filter((_, i) => i !== index))
-                }
+                onClick={() => setFiles(files.filter((_: any, i: any) => i !== index))}
               />
             </div>
           ))}
@@ -123,7 +165,7 @@ export const Upload = () => {
           >
             Upload
           </button>
-          {files.length > 0 && (
+          {/* {files.length > 0 && (
             <button
               className="bg-white text-green-500 font-semibold hover:bg-green-50"
               style={{
@@ -145,7 +187,7 @@ export const Upload = () => {
                 />
               </label>
             </button>
-          )}
+          )} */}
         </div>
       </div>
       <div className="flex justify-center mt-6 w-full sm:justify-end pr-10">
@@ -156,8 +198,9 @@ export const Upload = () => {
             height: '35px',
             borderRadius: '500px',
             border: '1px solid rgba(5, 117, 230, 1)',
+            marginBottom: '30px',
           }}
-          onClick={() => alert('Next step!')}
+          onClick={() => {setStep(2)}}
           disabled={files.length === 0}
         >
           Next
