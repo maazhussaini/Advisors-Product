@@ -1,8 +1,20 @@
 'use client'
 import React from "react";
 
+import { useSelector } from 'react-redux';
+import { RootState } from "@/lib/store";
+
 const Table = () => {
+
+    const uploadedData = useSelector((state: RootState) => state?.uploadedData?.data);
+
+    const mappedDataEntries = Object.entries(uploadedData?.mapped_data || {});
+console.log(mappedDataEntries); // Array of [key, value] pairs
+    console.log('uploadedData......', Object.keys(uploadedData));
+
   // New data format
+
+//   #region 
   const data: any = {
     "Level 1": [
         "1 Current Assets",
@@ -8787,11 +8799,14 @@ const Table = () => {
     ]
 }
 
+// #endregion
+
+
   // Extract column headers from object keys
-  const columns = Object.keys(data);
+  const columns = Object.keys(mappedDataEntries);
 
   // Transpose values into rows
-  const rows: any = Array.from({ length: data[columns[0]].length }, (_, rowIndex) =>
+  const rows: any = Array.from({ length: data[columns[0]]?.length }, (_, rowIndex) =>
     columns.map((col) => data[col][rowIndex])
   );
 
