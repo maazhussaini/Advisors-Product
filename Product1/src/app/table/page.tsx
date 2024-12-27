@@ -4,7 +4,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 
 const Table = () => {
-  const uploadedData = useSelector((state: RootState) => state?.uploadedData?.data);
+  const uploadedData = useSelector(
+    (state: RootState) => state?.uploadedData?.data
+  );
+
+  console.log('uploadedData', uploadedData);
 
   // Function to clean invalid JSON data
   function cleanJSON(jsonString: any) {
@@ -26,7 +30,9 @@ const Table = () => {
   } else if (typeof uploadedData === 'object' && uploadedData !== null) {
     mappedData = uploadedData?.mapped_data;
   } else {
-    console.error('Data from uploadedData is neither a valid string nor an object.');
+    console.error(
+      'Data from uploadedData is neither a valid string nor an object.'
+    );
     mappedData = null;
   }
 
@@ -38,8 +44,9 @@ const Table = () => {
   const columns = Object.keys(mappedData);
 
   // Transpose values into rows
-  const rows: any = Array.from({ length: mappedData[columns[0]]?.length }, (_, rowIndex) =>
-    columns.map((col) => mappedData[col][rowIndex])
+  const rows: any = Array.from(
+    { length: mappedData[columns[0]]?.length },
+    (_, rowIndex) => columns.map((col) => mappedData[col][rowIndex])
   );
 
   // Pagination state
@@ -73,7 +80,10 @@ const Table = () => {
             <thead className="bg-blue-100 text-sm uppercase">
               <tr>
                 {columns.map((col, index) => (
-                  <th key={index} className="py-2 px-4">
+                  <th
+                    key={index}
+                    className="py-2 px-4 whitespace-nowrap text-center"
+                  >
                     {col}
                   </th>
                 ))}
@@ -86,7 +96,11 @@ const Table = () => {
                 <tr key={rowIndex} className="border-b">
                   {row.map((cell: any, cellIndex: any) => (
                     <td key={cellIndex} className="py-2 px-4">
-                      {cell !== null ? cell : '-'}
+                      {typeof cell === 'number'
+                        ? cell.toFixed(2)
+                        : cell !== null
+                          ? cell
+                          : '-'}
                     </td>
                   ))}
                 </tr>

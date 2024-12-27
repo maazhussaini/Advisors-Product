@@ -31,3 +31,12 @@ body {
     text-wrap: balance;
   }
 }
+/* Ensure no overflow on the body */
+html, body {
+  height: 100%;
+  overflow: hidden;  /* Prevent scrolling */
+}
+
+body {
+  margin: 0;
+}
