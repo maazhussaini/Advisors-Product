@@ -1,7 +1,7 @@
 'use-client';
 import React from 'react';
 import Link from 'next/link';
-import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 
 const AuthPage = () => {
   return (
@@ -39,40 +39,8 @@ const AuthPage = () => {
       {/* Right Panel */}
       <div className="w-1/2 bg-white flex flex-col justify-center items-center">
         <div className="w-[400px] bg-white p-6 shadow-lg rounded-lg">
-          <h2 className="text-2xl font-bold text-start mb-6">Welcome</h2>
-          <h2 className="text-2xl text-start mb-6">Sign up to get started </h2>
+          <h2 className="text-2xl font-bold text-center mb-6">Welcome</h2>
           <form className="space-y-4">
-            {/* First Name */}
-            <div className="relative">
-              <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="firstName"
-                placeholder="First Name"
-                className="w-full pl-10 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
-                required
-              />
-            </div>
-            {/* Last Name */}
-            <div className="relative">
-              <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="lastName"
-                placeholder="Last Name"
-                className="w-full pl-10 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
-                required
-              />
-            </div>
-            {/* UserName */}
-            <div className="relative">
-              <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="userName"
-                placeholder="User Name"
-                className="w-full pl-10 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
-                required
-              />
-            </div>
-            {/* Email */}
             <div className="relative">
               <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
@@ -82,7 +50,7 @@ const AuthPage = () => {
                 required
               />
             </div>
-            {/* password */}
+
             <div className="relative">
               <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
@@ -92,37 +60,14 @@ const AuthPage = () => {
                 required
               />
             </div>
-            {/* Confrim passwrod */}
-            <div className="relative">
-              <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                className="w-full pl-10 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
-                required
-              />
-            </div>
 
             <button
               type="submit"
               className="w-full border border-[#1B2A41] text-[#1B2A41] py-2 px-4 rounded-full hover:bg-[#1B2A41] hover:text-white hover:bg-opacity-90"
             >
-              Sign Up
+              Login
             </button>
           </form>
-
-          {/* checkbox */}
-
-          <div className="flex items-center space-x-2 mt-3">
-            <input
-              type="checkbox"
-              id="remember-me"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-            />
-            <label htmlFor="remember-me" className="text-gray-700">
-              I hereby agree to the terms & conditions
-            </label>
-          </div>
 
           <div className="mt-4 text-center">
             <Link
@@ -138,9 +83,9 @@ const AuthPage = () => {
           </div>
 
           <div className="mt-4 text-center">
-            <span className="text-gray-600">Already have an account? </span>
-            <Link href="/auth/login" className="text-blue-600 hover:underline">
-              Login
+            <span className="text-gray-600">Create your account. </span>
+            <Link href="/auth/signup" className="text-blue-600 hover:underline">
+              Sign up
             </Link>
           </div>
         </div>

@@ -65,12 +65,37 @@ const Table = () => {
     }
   };
 
+  // Export to CSV function
+  const exportToCSV = () => {
+    const csvHeaders = columns.join(',');
+    const csvRows = rows.map((row: any) =>
+      row.map((cell: any) => (cell !== null ? `"${cell}"` : '')).join(',')
+    );
+    const csvContent = [csvHeaders, ...csvRows].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'table_data.csv';
+    link.click();
+
+    URL.revokeObjectURL(url); // Clean up URL
+  };
+
   return (
     <div className="w-full p-4">
       <div className="max-w-6xl mx-auto bg-white rounded-lg shadow">
         {/* Header */}
-        <div className="bg-blue-500 text-white font-bold text-lg p-4 rounded-t-lg">
-          Data Table
+        <div className="bg-blue-500 text-white font-bold text-lg p-4 rounded-t-lg flex justify-between items-center">
+          <span>Data Table</span>
+          <button
+            onClick={exportToCSV}
+            className="bg-white text-blue-500 py-2 px-4 rounded hover:bg-blue-100"
+          >
+            Export CSV
+          </button>
         </div>
 
         {/* Table */}
@@ -82,7 +107,8 @@ const Table = () => {
                 {columns.map((col, index) => (
                   <th
                     key={index}
-                    className="py-2 px-4 whitespace-nowrap text-center"
+                    className={`py-2 px-4 whitespace-nowrap text-center ${col === 'Account' ? 'w-64' : ''}`}
+                    style={col === 'Account' ? { minWidth: '200px' } : {}}
                   >
                     {col}
                   </th>
@@ -99,8 +125,8 @@ const Table = () => {
                       {typeof cell === 'number'
                         ? cell.toFixed(2)
                         : cell !== null
-                          ? cell
-                          : '-'}
+                        ? cell
+                        : '-'}
                     </td>
                   ))}
                 </tr>

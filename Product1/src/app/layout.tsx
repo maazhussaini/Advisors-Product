@@ -7,7 +7,7 @@ import { SideNav } from '@/common/components/SideNav';
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-poppins'
+  variable: '--font-poppins',
 });
 
 export const metadata: Metadata = {
@@ -22,20 +22,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={poppins.variable}>
-      {/* Head is required for Next.js metadata */}
-      <head />
-      <body>
+      <body className="flex min-h-screen">
         <StoreProvider>
-          {/* Wrapper for flex layout */}
-          <div className="flex min-h-screen">
-            {/* Sidebar */}
-            <aside className="w-64 h-screen text-white fixed">
-              <SideNav />
-            </aside>
+          {/* Sidebar */}
+          <aside className="w-64 h-screen text-white fixed">
+            <SideNav />
+          </aside>
 
-            {/* Main content */}
-            <main className="ml-64 flex-1 p-4">{children}</main>
-          </div>
+          {/* Main content */}
+          <main className="ml-64 flex-1 p-4">{children}</main>
         </StoreProvider>
       </body>
     </html>
