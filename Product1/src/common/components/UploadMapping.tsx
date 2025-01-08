@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image'
 
 export const UploadMapping = ({ setStep, files, uploadProgress }: any) => {
   console.log('uploadProgress',uploadProgress)
@@ -28,7 +29,7 @@ export const UploadMapping = ({ setStep, files, uploadProgress }: any) => {
             className="flex items-center justify-between border-2 border-green-400 rounded-md p-2 text-sm text-green-600"
           >
             <span>{file.name}</span>
-            <img src="Delete.svg" className="w-7 h-7" alt="delete" />
+            <Image src="Delete.svg" height={20}  width={20} alt="delete" />
           </div>
         ))}
 

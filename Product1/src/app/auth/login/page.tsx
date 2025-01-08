@@ -2,6 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
+import Image from 'next/image'
 
 const AuthPage = () => {
   return (
@@ -9,11 +10,14 @@ const AuthPage = () => {
       {/* Left Panel */}
       <div className="w-1/2 bg-[#1B2A41] flex flex-col justify-center items-center text-white p-8 relative">
         {/* Logo in the Top-Left Corner */}
-        <img
+        <Image
           src="../mainLogo.svg"
           alt="Logo"
           className="absolute top-4 left-4"
-          style={{ width: '513px', height: '114px' }}
+          // style={{ width: '513px', height: '114px' }}
+          height={114}
+          width={513}
+          
         />
 
         {/* Curved SVG in Bottom-Left Corner */}

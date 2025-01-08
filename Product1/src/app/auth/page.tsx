@@ -1,6 +1,8 @@
 'use-client';
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image'
+
 
 const AuthPage = () => {
   return (
@@ -8,11 +10,13 @@ const AuthPage = () => {
       {/* Left Panel */}
       <div className="w-1/2 bg-[#1B2A41] flex flex-col justify-center items-center text-white p-4 relative overflow-hidden">
         {/* Logo in the Top-Left Corner */}
-        <img
+        <Image
           src="../mainLogo.svg"
           alt="Logo"
           className="absolute top-4 left-4"
-          style={{ width: '300px', height: '100px' }}
+          // style={{ width: '300px', height: '100px' }}
+          height={100}
+          width={300}
         />
 
         {/* Curved Design */}

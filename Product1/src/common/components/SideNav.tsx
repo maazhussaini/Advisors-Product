@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link'; // Import the Link component for routing
+import Image from 'next/image'
 
 export const SideNav = () => {
   return (
@@ -11,20 +12,23 @@ export const SideNav = () => {
     >
       {/* Logo Section */}
       <div className="flex items-center mb-8" style={{ paddingTop: '29px' }}>
-        <img
+        <Image
           src="logo.svg"
           alt="Logo"
-          style={{ height: '32px', width: '170px' }}
+          height={32}
+          width={170}
         />
       </div>
 
       {/* Profile Section */}
       <div className="flex items-center bg-[#3B4D6A] rounded-[83px] p-2 mb-6 w-[234px]">
-        <img
-          src="Mask.svg"
-          alt="Profile"
-          className="inline-block size-6 rounded-full ring-2 ring-white mr-3"
-        />
+      <Image
+              src="Mask.svg"
+              alt="Profile"
+               className="rounded-full mr-2"
+              width={40}
+              height={40}
+            />
         <p
           style={{
             fontFamily: 'Poppins',
@@ -82,22 +86,27 @@ export const SideNav = () => {
       {/* Footer Section */}
       <div className="mt-auto pt-6 border-t border-gray-700">
         <div className="flex items-center mb-2 mt-3 space-x-4">
-          <img
-            src="Mask.svg"
-            alt="Profile"
-            className="w-10 h-10 rounded-full ring-2 ring-white"
-          />
+        <Image
+              src="Mask.svg"
+              alt="Profile"
+               className="rounded-full mr-2"
+              width={40}
+              height={40}
+            />
           <div>
             <p className="text-white font-semibold">Name</p>
             <p className="text-gray-400 text-sm">xyz@gmail.com</p>
           </div>
         </div>
         <div className="flex items-center mt-8 space-x-2 cursor-pointer">
-          <img src="setting.svg" alt="settings" />
+          <Image src="setting.svg" alt="settings" 
+          height={20}
+          width={20}
+          />
           <span className="text-white">Settings</span>
         </div>
         <div className="flex items-center mt-8 space-x-2 cursor-pointer">
-          <img src="logout.svg" alt="logout" />
+          <Image src="logout.svg" alt="logout" height={20} width={20} />
           <span className="text-white">Logout</span>
         </div>
       </div>

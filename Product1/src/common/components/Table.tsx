@@ -1,6 +1,7 @@
 'use-client';
 
 import React from 'react';
+import Image from 'next/image'
 
 export const Table = () => {
   return (
@@ -61,7 +62,7 @@ export const Table = () => {
         <div className="flex items-center space-x-4">
           {/* Settings Icon */}
           <button className="p-2 rounded hover:bg-gray-100">
-            <img src="Tool.svg"  alt=''/>
+            <Image src="Tool.svg"  alt=''height={20} width={20}/>
           </button>
 
           {/* Search Bar */}
@@ -131,15 +132,15 @@ export const Table = () => {
 
           {/* Action Icons */}
           <button className="p-2 rounded hover:bg-gray-100">
-          <img src="funnel.svg" alt='funnel'/>
+          <Image src="funnel.svg" alt='funnel' height={20} width={20}/>
           </button>
 
           <button className="p-2 rounded hover:bg-gray-100">
-          <img src="print.svg" alt='funnel'/>
+          <Image src="print.svg" alt='funnel' height={20} width={20}/>
           </button>
 
           <button className="p-2 rounded hover:bg-gray-100">
-          <img src="Expand.svg" alt='funnel'/>
+          <Image src="Expand.svg" alt='funnel' height={20} width={20}/>
           </button>
         </div>
       </div>
