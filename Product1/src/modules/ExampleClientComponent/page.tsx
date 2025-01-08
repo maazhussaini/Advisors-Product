@@ -1,9 +1,7 @@
 'use client';
-
+/* eslint-disable */
 import { useGetTheUsersQuery } from '@/lib/services/api';
-import Image from 'next/image';
 import React, { useState } from 'react';
-// import ExampleCounter from './components/Counter';
 import { Header } from '@/common/components/Header';
 import { Upload } from '@/common/components/Upload';
 import { UploadMapping } from '@/common/components/UploadMapping';
@@ -13,7 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ExampleClientComponent = () => {
-  const { data, isLoading, isError } = useGetTheUsersQuery('');
+  const { data } = useGetTheUsersQuery('');
 
   const [step, setStep] = useState(1);
   const [files, setFiles] = useState<File[]>([]);

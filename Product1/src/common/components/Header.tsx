@@ -1,4 +1,5 @@
 'use-client';
+import Image from 'next/image'
 import React from 'react';
 
 export const Header = () => {
@@ -9,10 +10,12 @@ export const Header = () => {
         {/* Header Section */}
         <div className="w-full  flex items-center justify-between bg-white rounded-lg shadow-md p-4 mb-8">
           <div className="flex items-center w-full sm:w-auto">
-            <img
+            <Image
               src="Mask.svg"
               alt="Profile"
-              className="w-10 h-10 rounded-full mr-2"
+               className="rounded-full mr-2"
+              width={40}
+              height={40}
             />
             <span
               className="text-gray-800 font-semibold text-xl"
@@ -31,11 +34,13 @@ export const Header = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <img src="bell.svg" alt="Notifications" className="w-10 h-10" />
-            <img
+            <Image src="bell.svg" alt="Notifications" height={40} width={40}/>
+            <Image
               src="cat.svg"
               alt="User Profile"
-              className="w-10 h-10 rounded-full"
+              className="rounded-full"
+              height={40}
+              width={40}
             />
           </div>
         </div>
