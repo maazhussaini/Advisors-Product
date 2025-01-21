@@ -45,3 +45,12 @@ Thumbs.db
 .env.development
 .env.production
 .env.test
+
+
+*.pem
+Backend.rar
+*.rar
+*.zip
+
+# Ignore the backup files
+backup/

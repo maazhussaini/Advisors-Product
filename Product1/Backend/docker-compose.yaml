@@ -1,0 +1,51 @@
+networks:
+  advisors_dem:
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./backup_data/postgres_data:/var/lib/postgresql/data # Map folder to store PostgreSQL data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # Initialization script
+    networks:
+      - advisors_dem
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - '5050:80'
+    depends_on:
+      - postgres
+    networks:
+      - advisors_dem
+
+  app:
+    restart: unless-stopped
+    image: maazhussaini2570/python-advisors_product1:0.0.3.RELEASE # Specify the image tag
+    container_name: python_advisors_product1 # Valid container name
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    ports:
+      - '80:8200'
+    env_file:
+      - .env
+    networks:
+      - advisors_dem

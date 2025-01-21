@@ -1,10 +1,10 @@
 # Ignore the .env file
-.env
 
 # Ignore the __pycache__ folder
 __pycache__/
 uploads/
 
+# Ignore pyenv folder
 pyenv/
 
 # Ignore document files
@@ -12,10 +12,11 @@ pyenv/
 *.docx
 *.doc
 
+# Additional files/directories to ignore that are common for Docker builds
+.git
+Dockerfile
+node_modules/
+*.log
+*.rar
 
 *.pem
-*.rar
-Backend.rar
-
-# Ignore the backup files
-backup/

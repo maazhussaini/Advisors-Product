@@ -5,4 +5,6 @@ app = create_app()
 
 if __name__ == '__main__':
     # serve(app,host='192.168.9.10',port=8200)
-    serve(app,host='0.0.0.0',port=8200)
+    # Enable debug for auto-reload
+    app.run(debug=True, host="0.0.0.0", port=8200)
+    # serve(app,host='0.0.0.0',port=8200)
