@@ -5,6 +5,7 @@ import Link from 'next/link'; // Import the Link component for routing
 import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 
+
 export const SideNav = () => {
   const router = useRouter();
 
@@ -114,6 +115,7 @@ const userData = JSON.parse(lcData!);
           <div>
             <p className="text-white font-semibold">{userData.displayName}</p>
             <p className="text-gray-400 text-sm">{userData.email}</p>
+
           </div>
         </div>
         <div className="flex items-center mt-8 space-x-2 cursor-pointer">
@@ -129,6 +131,7 @@ const userData = JSON.parse(lcData!);
           onClick={handleLogout}>
             Logout
             </span>
+
         </div>
       </div>
     </div>

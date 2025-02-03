@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+
 import React from 'react';
 
 export const Header = () => {
@@ -13,11 +14,13 @@ const userData = JSON.parse(lcData!);
       <div className="w-full flex flex-col items-center p-4">
         <div className="w-full flex items-center justify-between bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mb-8">
           {/* Logo and Company Name */}
+
           <div className="flex items-center w-full sm:w-auto">
             <Image
               src="Mask.svg"
               alt="Profile"
               className="rounded-full mr-2"
+
               width={40}
               height={40}
             />
@@ -47,6 +50,7 @@ const userData = JSON.parse(lcData!);
               src="cat.svg"
               alt="User Profile"
               className="text-gray-800 dark:text-gray-200"
+
               height={40}
               width={40}
             />

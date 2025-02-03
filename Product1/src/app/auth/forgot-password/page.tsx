@@ -79,7 +79,6 @@ const ForgotPasswordPage = () => {
     </div>
   </div>
 </div>
-
       </div>
 
       {/* <div className="min-h-screen flex items-center justify-center bg-gray-100 overflow-hidden"></div> */}

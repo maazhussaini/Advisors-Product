@@ -82,6 +82,7 @@ const SignUpPage = () => {
           width={513}
         />
 
+
         <svg
           className="absolute bottom-0 left-0"
           width="382"
@@ -195,9 +196,12 @@ const SignUpPage = () => {
           </div>
         </div>
 </div>
+
       </div>
     </div>
   );
 };
 
 export default SignUpPage;
+
+

@@ -1,5 +1,6 @@
 'use client';
 
+
 import React from 'react';
 import Image from 'next/image'
 
@@ -11,6 +12,7 @@ export const Table = () => {
         {/* Table Section */}
         <div className="flex-grow overflow-x-auto">
           <table className="w-[95%] -collapse -gray-300 text-left">
+
             <thead>
               <tr>
                 <th className="px-4 py-2 -b -gray-300">

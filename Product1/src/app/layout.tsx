@@ -1,10 +1,14 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import '@/styles/globals.css';
 import StoreProvider from '@/lib/Provider/StoreProvider';
 import { SideNav } from '@/common/components/SideNav';
 
-const inter = Inter({ subsets: ['latin'] });
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
+});
 
 export const metadata: Metadata = {
   title: 'Next Redux Typescript Tailwind',
@@ -17,10 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <StoreProvider>
-        {/* Wrapper for flex layout */}
-        <div className="flex min-h-screen">
+    <html lang="en" className={poppins.variable}>
+      <body className="flex min-h-screen">
+        <StoreProvider>
           {/* Sidebar */}
           <aside className="w-64 h-screen text-white fixed">
             <SideNav />
@@ -28,8 +31,8 @@ export default function RootLayout({
 
           {/* Main content */}
           <main className="ml-64 flex-1 p-4">{children}</main>
-        </div>
-      </StoreProvider>
+        </StoreProvider>
+      </body>
     </html>
   );
 }

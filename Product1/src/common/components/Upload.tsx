@@ -1,5 +1,6 @@
 'use client';
 import React, {  useState } from 'react';
+
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -15,7 +16,6 @@ export const Upload = ({ setStep }: any) => {
   const [mappingFiles, setMappingFiles] = useState<File[]>([]);
   
 
-  
 const router = useRouter();
   const dispatch = useDispatch();
 
@@ -42,6 +42,7 @@ const router = useRouter();
     const localData = localStorage.getItem('userInfo')
     const data = JSON.parse(localData!);
     const  userId  = data.id
+
     if (!sourceFiles.length || !mappingFiles.length) {
       toast.error('Please upload both source and mapping files.');
       return;
@@ -57,10 +58,12 @@ const router = useRouter();
     formData.append('user_id', userId); 
     formData.append('company_id', '123'); // Replace with acutal when backend will send us
 
+
     try {
       setUploading(true);
 
       const response = await axios.post('http://3.28.221.79/api/fileUpload', formData, {
+
         headers: {
           'Content-Type': 'multipart/form-data',
         },
