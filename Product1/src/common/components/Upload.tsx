@@ -1,85 +1,178 @@
 'use client';
+import React, {  useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setUploadedData } from '@/lib/features/uploadedDataSlice';
+import { useRouter } from 'next/navigation';
 
-import React from 'react';
+export const Upload = ({ setStep }: any) => {
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [step, setStepState] = useState(1); // Step state: 1 for source files, 2 for mapping files
+  const [sourceFiles, setSourceFiles] = useState<File[]>([]);
+  const [mappingFiles, setMappingFiles] = useState<File[]>([]);
+  
 
-export const Upload = () => {
-  return (
-    <>
-      {/* Full-screen container */}
-      <div className="flex items-center justify-center min-h-screen bg-white rounded-lg shadow-md flex-col">
-        {/* Upload card */}
-        <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8 grid gap-6">
-          {/* Title */}
-          <h2 className="text-center text-gray-900 font-semibold text-base mb-4">
-            Upload Source File (CSV/Excel/PDF format Only)
-          </h2>
+  
+const router = useRouter();
+  const dispatch = useDispatch();
 
-          {/* Drag and Drop Box */}
-          <div className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-8">
-            <img src="uploadIcon.svg" alt='upload' />
-            <p className="text-gray-600 mt-3">
-              Drag & drop files or{' '}
-              <span className="text-blue-500 cursor-pointer hover:underline">
-                Browse
-              </span>
-            </p>
-            <p className="text-gray-400 text-xs mt-2">
-              Supported formats: CSV, Excel, PDF
-            </p>
-          </div>
 
-          {/* Progress Bar and Uploading Status */}
-          <div>
-            <p className="text-gray-600 text-sm mb-1">Uploading - 3/3 files</p>
-            <div className="relative w-full bg-gray-200 rounded-full h-2">
-              <div className="absolute h-2 rounded-full bg-blue-500" style={{ width: '70%' }}></div>
-            </div>
-            <p className="text-gray-600 text-sm mt-1">your-file-here.PDF</p>
-          </div>
+  const onDrop = (acceptedFiles: File[]) => {
+    if (step === 1) {
+      setSourceFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
+    } else if (step === 2) {
+      setMappingFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
+    }
+  };
 
-          {/* Uploaded Files List */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between border-2 border-green-400 rounded-md p-2 text-sm text-green-600">
-              <span>document-name.PDF</span>
-              <img src='Delete.svg' className='w-7 h-7' alt='delete'/>
-            </div>
-            <div className="flex items-center justify-between border-2 border-green-400 rounded-md p-2 text-sm text-green-600">
-              <span>document-name.PDF</span>
-              <img src='Delete.svg' className='w-7 h-7' alt='delete'/>
-            </div>
-          </div>
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'application/vnd.ms-excel': ['.xls', '.xlsx'],
+      'text/csv': ['.csv'],
+      ...(step === 1 && { 'application/pdf': ['.pdf'] }), // PDFs only allowed for source files
+    },
+    multiple: true,
+  });
 
-          {/* Upload Button */}
-          <div className="flex justify-center items-center">
-          <button
-            className="bg-white text-blue-500 font-semibold hover:bg-blue-50"
-            style={{
-              width: '159px',
-              height: '35px',
-              borderRadius: '500px',
-              border: '1px solid rgba(5, 117, 230, 1)',
-            }}
-          >
-            Upload
-          </button>
-          </div>
-        </div>
+  const handleUpload = async () => {
+    const localData = localStorage.getItem('userInfo')
+    const data = JSON.parse(localData!);
+    const  userId  = data.id
+    if (!sourceFiles.length || !mappingFiles.length) {
+      toast.error('Please upload both source and mapping files.');
+      return;
+    }
 
-        {/* Next Button outside the upload section but inside the main container */}
-        <div className="flex justify-center mt-6 w-full sm:justify-end pr-10">
-          <button
-            className="bg-white text-blue-500 font-semibold hover:bg-blue-50"
-            style={{
-              width: '159px',
-              height: '35px',
-              borderRadius: '500px',
-              border: '1px solid rgba(5, 117, 230, 1)',
-            }}
-          >
-            Next
-          </button>
-        </div>
+    const formData = new FormData();
+
+    // Append source files
+    sourceFiles.forEach((file) => formData.append('files', file));
+
+    // Append mapping files
+    mappingFiles.forEach((file) => formData.append('mapping_file', file));
+    formData.append('user_id', userId); 
+    formData.append('company_id', '123'); // Replace with acutal when backend will send us
+
+    try {
+      setUploading(true);
+
+      const response = await axios.post('http://3.28.221.79/api/fileUpload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: (progressEvent: any) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setProgress(percentCompleted);
+        },
+      });
+
+      if (response.status === 200) {
+        toast.success('Files uploaded successfully!');
+        dispatch(setUploadedData(response.data))
+        
+      } else {
+        toast.error(`Upload failed: ${response.data?.message || response.statusText}`);
+      }
+    } catch (error: any) {
+      console.error('Upload Error:', error);
+      toast.error(`Error uploading files: ${error.response?.data?.message || error.message}`);
+    } finally {
+      setUploading(false);
+      router.push('/table');     
+    }
+  };
+
+  const removeFile = (type: 'source' | 'mapping', index: number) => {
+    if (type === 'source') {
+      setSourceFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    } else {
+      setMappingFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    }
+  };
+
+  const renderFilePreview = (files: File[], type: 'source' | 'mapping') =>
+    files.map((file, index) => (
+      <div
+        key={index}
+        className="flex items-center justify-between border-2 border-green-400 rounded-md p-2 text-sm text-green-600 mt-2"
+      >
+        <span>{file.name}</span>
+        <button
+          className="text-red-500 hover:underline"
+          onClick={() => removeFile(type, index)}
+        >
+          Remove
+        </button>
       </div>
-    </>
+    ));
+
+  return (
+<div className="flex items-center justify-center bg-white dark:bg-gray-800 rounded-lg shadow-md flex-col">
+  <div className="w-full max-w-lg bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 grid gap-6 mb-10">
+    <h2 className="text-center text-gray-900 dark:text-gray-100 font-semibold text-base mb-4">
+      {step === 1 ? 'Upload Source Files (CSV/Excel/PDF format Only)' : 'Upload Mapping Files (CSV/Excel/PDF format Only)'}
+    </h2>
+
+    {/* Dropzone */}
+    <div
+      {...getRootProps()}
+      className={`flex flex-col items-center justify-center border-2 rounded-lg p-8 ${
+        isDragActive ? 'border-blue-400' : 'border-dashed border-gray-300 dark:border-gray-600'
+      }`}
+    >
+      <input {...getInputProps()} />
+      <div className="text-gray-600 dark:text-gray-300 mt-3 flex">
+        {isDragActive ? (
+          <p>Drop the files here...</p>
+        ) : (
+          <>
+            Drag & drop {step === 1 ? 'source' : 'mapping'} files here or{' '} &nbsp;
+            <span className="text-blue-500 dark:text-blue-400 underline cursor-pointer">Browse</span>
+          </>
+        )}
+      </div>
+      <div className="text-gray-400 dark:text-gray-500 text-xs mt-2">
+        Supported formats: {step === 1 ? 'CSV, Excel, PDF' : 'CSV, Excel'}
+      </div>
+    </div>
+
+    {/* File Previews */}
+
+    <div
+  className="mt-4 overflow-y-auto max-h-48 no-scrollbar"
+>
+  <div className="text-gray-600 dark:text-gray-300 text-sm mb-1">Selected Files:</div>
+  {renderFilePreview(step === 1 ? sourceFiles : mappingFiles, step === 1 ? 'source' : 'mapping')}
+</div>
+
+    {/* Actions */}
+    <div className="flex flex-col items-center gap-4">
+      {step === 1 ? (
+        <button
+          className="bg-blue-500 dark:bg-blue-700 text-white font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 px-4 py-2 rounded-full"
+          onClick={() => setStepState(2)}
+          disabled={!sourceFiles.length}
+        >
+          Next
+        </button>
+      ) : (
+        <button
+          className="bg-blue-500 dark:bg-blue-700 text-white font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 px-4 py-2 rounded-full"
+          onClick={handleUpload}
+          disabled={uploading || !mappingFiles.length}
+        >
+          Upload
+        </button>
+      )}
+    </div>
+  </div>
+</div>
+
   );
 };
