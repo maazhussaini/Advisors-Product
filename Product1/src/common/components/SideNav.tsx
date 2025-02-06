@@ -1,10 +1,29 @@
-'use-client';
+'use client';
 
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import Link from 'next/link'; // Import the Link component for routing
 import Image from 'next/image'
+import { useRouter } from 'next/navigation';
+
 
 export const SideNav = () => {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // Clear the cookie
+    document.cookie = "authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+  
+    // Clear localStorage or sessionStorage
+    localStorage.removeItem('authToken');
+  
+    // Redirect to login page
+    router.push('/auth');
+  };
+
+const lcData = localStorage.getItem('userInfo');
+const userData = JSON.parse(lcData!);
+
+  
   return (
     <div
       className="flex flex-col h-screen bg-[#0E1B33] w-70 p-4"
@@ -41,7 +60,7 @@ export const SideNav = () => {
             color: 'rgba(217, 217, 217, 0.56)',
           }}
         >
-          Company A
+          {userData.displayName}
         </p>
       </div>
 
@@ -94,8 +113,9 @@ export const SideNav = () => {
               height={40}
             />
           <div>
-            <p className="text-white font-semibold">Name</p>
-            <p className="text-gray-400 text-sm">xyz@gmail.com</p>
+            <p className="text-white font-semibold">{userData.displayName}</p>
+            <p className="text-gray-400 text-sm">{userData.email}</p>
+
           </div>
         </div>
         <div className="flex items-center mt-8 space-x-2 cursor-pointer">
@@ -107,7 +127,11 @@ export const SideNav = () => {
         </div>
         <div className="flex items-center mt-8 space-x-2 cursor-pointer">
           <Image src="logout.svg" alt="logout" height={20} width={20} />
-          <span className="text-white">Logout</span>
+          <span className="text-white"
+          onClick={handleLogout}>
+            Logout
+            </span>
+
         </div>
       </div>
     </div>

@@ -39,49 +39,46 @@ const ForgotPasswordPage = () => {
         </div>
 
         {/* Right Panel */}
-        <div className="w-1/2 bg-white flex flex-col justify-center items-center">
-          {/* <div className="w-[400px] bg-white p-6 shadow-lg rounded-lg"> */}
-        
-            <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-center mb-6">
-                Forgot Your Password?
-              </h2>
-              <p className="text-gray-600 text-center mb-6">
-                Enter your email address and we’ll send you a link to reset your
-                password.
-              </p>
+        <div className="w-1/2 bg-white dark:bg-[#1B2A41] flex flex-col justify-center items-center">
+  <div className="w-full max-w-md bg-white dark:bg-[#2A3B55] rounded-lg shadow-lg p-8">
+    <h2 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+      Forgot Your Password?
+    </h2>
+    <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
+      Enter your email address and we’ll send you a link to reset your password.
+    </p>
 
-              <form className="space-y-4">
-                <div>
-                  <label className="block text-gray-700 font-medium mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
+    <form className="space-y-4">
+      <div>
+        <label className="block text-gray-700 dark:text-gray-300 font-medium mb-1">
+          Email
+        </label>
+        <input
+          type="email"
+          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-[#1B2A41] dark:text-white dark:placeholder-gray-400"
+          placeholder="Enter your email"
+          required
+        />
+      </div>
 
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
-                >
-                  Send Reset Link
-                </button>
-              </form>
+      <button
+        type="submit"
+        className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800"
+      >
+        Send Reset Link
+      </button>
+    </form>
 
-              <div className="mt-4 text-center">
-                <Link
-                  href="/auth/login"
-                  className="text-blue-600 hover:underline"
-                >
-                  Back to Login
-                </Link>
-              </div>
-            </div>
-          {/* </div> */}
-        </div>
+    <div className="mt-4 text-center">
+      <Link
+        href="/auth/login"
+        className="text-blue-600 dark:text-blue-400 hover:underline"
+      >
+        Back to Login
+      </Link>
+    </div>
+  </div>
+</div>
       </div>
 
       {/* <div className="min-h-screen flex items-center justify-center bg-gray-100 overflow-hidden"></div> */}

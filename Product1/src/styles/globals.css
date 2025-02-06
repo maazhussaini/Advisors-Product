@@ -32,11 +32,53 @@ body {
   }
 }
 /* Ensure no overflow on the body */
-html, body {
+html,
+body {
   height: 100%;
-  overflow: hidden;  /* Prevent scrolling */
+  margin: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+
 }
 
 body {
   margin: 0;
+}
+/* Styling the scrollbar */
+::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+  height: 8px; /* Height of the horizontal scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #1e293b; /* Dark background for track */
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #4f46e5; /* Custom handle color */
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6; /* Lighter color when hovered */
+}
+
+
+/* Hide scrollbar for Chrome, Safari, and Edge */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* General styling to maintain smooth scrolling */
+.no-scrollbar {
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
 }

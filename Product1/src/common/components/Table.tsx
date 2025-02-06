@@ -1,4 +1,5 @@
-'use-client';
+'use client';
+
 
 import React from 'react';
 import Image from 'next/image'
@@ -7,10 +8,11 @@ export const Table = () => {
   return (
   <>
         <div className="bg-white w-full mt-14">
-        <div className="w-full  bg-white shadow-md rounded-md min-h-screen flex flex-col">
+        <div className="w-[95%]  bg-white shadow-md rounded-md min-h-screen flex flex-col">
         {/* Table Section */}
         <div className="flex-grow overflow-x-auto">
-          <table className="w-full -collapse -gray-300 text-left">
+          <table className="w-[95%] -collapse -gray-300 text-left">
+
             <thead>
               <tr>
                 <th className="px-4 py-2 -b -gray-300">

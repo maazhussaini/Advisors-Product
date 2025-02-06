@@ -1,6 +1,6 @@
-'use-client';
-/* eslint-disable */
-import React, { useState } from 'react';
+'use client';
+import React, {  useState } from 'react';
+
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 import axios from 'axios';
@@ -15,6 +15,7 @@ export const Upload = ({ setStep }: any) => {
   const [sourceFiles, setSourceFiles] = useState<File[]>([]);
   const [mappingFiles, setMappingFiles] = useState<File[]>([]);
   
+
 const router = useRouter();
   const dispatch = useDispatch();
 
@@ -38,6 +39,10 @@ const router = useRouter();
   });
 
   const handleUpload = async () => {
+    const localData = localStorage.getItem('userInfo')
+    const data = JSON.parse(localData!);
+    const  userId  = data.id
+
     if (!sourceFiles.length || !mappingFiles.length) {
       toast.error('Please upload both source and mapping files.');
       return;
@@ -50,11 +55,15 @@ const router = useRouter();
 
     // Append mapping files
     mappingFiles.forEach((file) => formData.append('mapping_file', file));
+    formData.append('user_id', userId); 
+    formData.append('company_id', '123'); // Replace with acutal when backend will send us
+
 
     try {
       setUploading(true);
 
-      const response = await axios.post('http://3.29.31.87/api/fileUpload', formData, {
+      const response = await axios.post('http://3.28.221.79/api/fileUpload', formData, {
+
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -107,62 +116,66 @@ const router = useRouter();
     ));
 
   return (
-    <div className="flex items-center justify-center bg-white rounded-lg shadow-md flex-col">
-      <div className="w-full max-w-lg bg-white rounded-lg shadow-md p-8 grid gap-6 mb-10">
-        <h2 className="text-center text-gray-900 font-semibold text-base mb-4">
-          {step === 1 ? 'Upload Source Files (CSV/Excel/PDF format Only)' : 'Upload Mapping Files (CSV/Excel format Only)'}
-        </h2>
+<div className="flex items-center justify-center bg-white dark:bg-gray-800 rounded-lg shadow-md flex-col">
+  <div className="w-full max-w-lg bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 grid gap-6 mb-10">
+    <h2 className="text-center text-gray-900 dark:text-gray-100 font-semibold text-base mb-4">
+      {step === 1 ? 'Upload Source Files (CSV/Excel/PDF format Only)' : 'Upload Mapping Files (CSV/Excel/PDF format Only)'}
+    </h2>
 
-        {/* Dropzone */}
-        <div
-          {...getRootProps()}
-          className={`flex flex-col items-center justify-center border-2 rounded-lg p-8 ${
-            isDragActive ? 'border-blue-400' : 'border-dashed border-gray-300'
-          }`}
-        >
-          <input {...getInputProps()} />
-          <div className="text-gray-600 mt-3 flex">
-            {isDragActive ? (
-              <p>Drop the files here...</p>
-            ) : (
-              <>
-              Drag & drop {step === 1 ? 'source' : 'mapping'} files here or{' '} &nbsp;
-              <span className="text-blue-500 underline cursor-pointer">Browse</span>
-            </>
-            )}
-          </div>
-          <div className="text-gray-400 text-xs mt-2">
-            Supported formats: {step === 1 ? 'CSV, Excel, PDF' : 'CSV, Excel'}
-          </div>
-        </div>
-
-        {/* File Previews */}
-        <div className="mt-4">
-          <div className="text-gray-600 text-sm mb-1">Selected Files:</div>
-          {renderFilePreview(step === 1 ? sourceFiles : mappingFiles, step === 1 ? 'source' : 'mapping')}
-        </div>
-
-        {/* Actions */}
-        <div className="flex flex-col items-center gap-4">
-          {step === 1 ? (
-            <button
-              className="bg-blue-500 text-white font-semibold hover:bg-blue-600 px-4 py-2 rounded-full"
-              onClick={() => setStepState(2)}
-              disabled={!sourceFiles.length}
-            >
-              Next
-            </button>
-          ) : (
-            <button
-              className="bg-blue-500 text-white font-semibold hover:bg-blue-600 px-4 py-2 rounded-full"
-              onClick={handleUpload}
-              disabled={uploading || !mappingFiles.length}
-            >
-              Upload
-            </button>
-          )}
-        </div>
+    {/* Dropzone */}
+    <div
+      {...getRootProps()}
+      className={`flex flex-col items-center justify-center border-2 rounded-lg p-8 ${
+        isDragActive ? 'border-blue-400' : 'border-dashed border-gray-300 dark:border-gray-600'
+      }`}
+    >
+      <input {...getInputProps()} />
+      <div className="text-gray-600 dark:text-gray-300 mt-3 flex">
+        {isDragActive ? (
+          <p>Drop the files here...</p>
+        ) : (
+          <>
+            Drag & drop {step === 1 ? 'source' : 'mapping'} files here or{' '} &nbsp;
+            <span className="text-blue-500 dark:text-blue-400 underline cursor-pointer">Browse</span>
+          </>
+        )}
+      </div>
+      <div className="text-gray-400 dark:text-gray-500 text-xs mt-2">
+        Supported formats: {step === 1 ? 'CSV, Excel, PDF' : 'CSV, Excel'}
       </div>
     </div>
+
+    {/* File Previews */}
+
+    <div
+  className="mt-4 overflow-y-auto max-h-48 no-scrollbar"
+>
+  <div className="text-gray-600 dark:text-gray-300 text-sm mb-1">Selected Files:</div>
+  {renderFilePreview(step === 1 ? sourceFiles : mappingFiles, step === 1 ? 'source' : 'mapping')}
+</div>
+
+    {/* Actions */}
+    <div className="flex flex-col items-center gap-4">
+      {step === 1 ? (
+        <button
+          className="bg-blue-500 dark:bg-blue-700 text-white font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 px-4 py-2 rounded-full"
+          onClick={() => setStepState(2)}
+          disabled={!sourceFiles.length}
+        >
+          Next
+        </button>
+      ) : (
+        <button
+          className="bg-blue-500 dark:bg-blue-700 text-white font-semibold hover:bg-blue-600 dark:hover:bg-blue-600 px-4 py-2 rounded-full"
+          onClick={handleUpload}
+          disabled={uploading || !mappingFiles.length}
+        >
+          Upload
+        </button>
+      )}
+    </div>
+  </div>
+</div>
+
   );
 };

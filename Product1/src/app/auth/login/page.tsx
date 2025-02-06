@@ -1,26 +1,63 @@
-'use-client';
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
-import Image from 'next/image'
+import Image from 'next/image';
+import { toast } from 'react-toastify';
 
-const AuthPage = () => {
+const Login = () => {
+
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async (e: any) => {
+    e.preventDefault();
+    
+    const formData = new FormData();
+    formData.append('user_email', email);
+    formData.append('user_password', password);
+  
+    try {
+      const response = await fetch('http://3.28.221.79/api/login', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.data.message || 'Something went wrong');
+      }
+  
+      toast.success('Login Successfully !')
+      // Store the auth token in localStorage or cookies
+      localStorage.setItem('authToken', data.data.accessToken);
+      const userInfo = JSON.stringify(data.data.user)
+      localStorage.setItem('userInfo', userInfo)
+      // Redirect the user to the protected route or home page
+      window.location.href = '/';
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+  
+  
+
   return (
     <div className="min-h-screen flex w-full">
       {/* Left Panel */}
-      <div className="w-1/2 bg-[#1B2A41] flex flex-col justify-center items-center text-white p-8 relative">
-        {/* Logo in the Top-Left Corner */}
+      <div className="w-1/2 bg-[#1B2A41] flex flex-col justify-center items-center text-gray-100 p-8 relative">
         <Image
           src="../mainLogo.svg"
           alt="Logo"
           className="absolute top-4 left-4"
-          // style={{ width: '513px', height: '114px' }}
           height={114}
           width={513}
-          
         />
 
-        {/* Curved SVG in Bottom-Left Corner */}
         <svg
           className="absolute bottom-0 left-0"
           width="382"
@@ -41,61 +78,72 @@ const AuthPage = () => {
       </div>
 
       {/* Right Panel */}
-      <div className="w-1/2 bg-white flex flex-col justify-center items-center">
-        <div className="w-[400px] bg-white p-6 shadow-lg rounded-lg">
-          <h2 className="text-2xl font-bold text-center mb-6">Welcome</h2>
-          <form className="space-y-4">
-            <div className="relative">
-              <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="email"
-                placeholder="Email Address"
-                className="w-full pl-10 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
-                required
-              />
-            </div>
-
-            <div className="relative">
-              <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full pl-10 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full border border-[#1B2A41] text-[#1B2A41] py-2 px-4 rounded-full hover:bg-[#1B2A41] hover:text-white hover:bg-opacity-90"
-            >
-              Login
-            </button>
-          </form>
-
-          <div className="mt-4 text-center">
-            <Link
-              href="/auth/forgot-password"
-              className="text-gray-600 hover:underline"
-            >
-              Forgot password
-            </Link>
-          </div>
-
-          <div className="mt-4 text-center">
-            <span className="text-gray-600">or</span>
-          </div>
-
-          <div className="mt-4 text-center">
-            <span className="text-gray-600">Create your account. </span>
-            <Link href="/auth/signup" className="text-blue-600 hover:underline">
-              Sign up
-            </Link>
-          </div>
-        </div>
+      <div className="w-1/2 bg-white dark:bg-[#1B2A41] flex flex-col justify-center items-center">
+  <div className="w-[400px] bg-white dark:bg-[#2A3B55] p-6 shadow-lg rounded-lg">
+    <h2 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-gray-100">
+      Welcome
+    </h2>
+    <form className="space-y-4" onSubmit={handleLogin}>
+      <div className="relative">
+        <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300" />
+        <input
+          type="email"
+          placeholder="Email Address"
+          className="w-full pl-10 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 dark:placeholder-gray-400 dark:bg-[#2A3B55] dark:text-gray-100"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
       </div>
+
+      <div className="relative">
+        <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-300" />
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full pl-10 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 dark:placeholder-gray-400 dark:bg-[#2A3B55] dark:text-gray-100"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+
+      {error && <p className="text-red-500 text-center">{error}</p>}
+
+      <button
+        type="submit"
+        className="w-full border border-[#1B2A41] text-[#1B2A41] dark:text-gray-100 py-2 px-4 rounded-full hover:bg-[#1B2A41] hover:text-white hover:bg-opacity-90"
+        disabled={isLoading}
+      >
+        {isLoading ? 'Logging in...' : 'Login'}
+      </button>
+    </form>
+
+    <div className="mt-4 text-center">
+      <Link
+        href="/auth/forgot-password"
+        className="text-gray-600 dark:text-gray-300 hover:underline"
+      >
+        Forgot password
+      </Link>
+    </div>
+
+    <div className="mt-4 text-center">
+      <span className="text-gray-600 dark:text-gray-300">or</span>
+    </div>
+
+    <div className="mt-4 text-center">
+      <span className="text-gray-600 dark:text-gray-300">Create your account. </span>
+      <Link href="/auth/signup" className="text-blue-600 hover:underline">
+        Sign up
+      </Link>
+    </div>
+  </div>
+</div>
+
     </div>
   );
 };
 
-export default AuthPage;
+export default Login;
+
