@@ -3,6 +3,10 @@ package-lock.json/
 
 pyenv/
 
+<<<<<<< HEAD
+__pycache__/
+
+=======
 # Ignore __pycache__ folder
 __pycache__/
 
@@ -10,8 +14,17 @@ __pycache__/
 *.xlsx
 *.pyc
 
+>>>>>>> 08e19453f1c21bf7d5e684f0a340db316416f2be
 # Ignore node_modules folder
 node_modules/
+
+# Ignore __pycache__ folder
+__pycache__/
+pyenv/
+
+# Ignore Excel and Csv files
+*.csv
+*.xlsx
 
 # Ignore logs
 logs/
@@ -32,3 +45,12 @@ Thumbs.db
 .env.development
 .env.production
 .env.test
+
+
+*.pem
+Backend.rar
+*.rar
+*.zip
+
+# Ignore the backup files
+backup/
