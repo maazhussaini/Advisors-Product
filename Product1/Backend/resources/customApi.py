@@ -212,7 +212,7 @@ class FileUploadResource(Resource):
             account_column = levels[-1]
 
         financial_columns = [col for col in mapping_df.columns if any(term in col.lower() for term in ["debit", "credit", "balance"])]
-
+        
         return {
             "consolidated_account_column": account_column,
             "mapping_account_column": account_column,

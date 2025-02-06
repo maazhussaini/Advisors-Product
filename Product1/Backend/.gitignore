@@ -3,7 +3,7 @@
 
 # Ignore the __pycache__ folder
 __pycache__/
-uploads/
+# uploads/
 
 pyenv/
 
